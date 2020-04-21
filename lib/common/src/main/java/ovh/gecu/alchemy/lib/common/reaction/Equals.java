@@ -1,0 +1,30 @@
+package ovh.gecu.alchemy.lib.common.reaction;
+
+import ovh.gecu.alchemy.core.reaction.ReactionPipelineStep;
+import ovh.gecu.alchemy.core.solution.Cell;
+import ovh.gecu.alchemy.core.solution.Element;
+import java.util.List;
+
+/**
+ * Checks if the pipeline's elements' values are the same using their implementation of
+ * {@link Object#equals}. If they are not, stops the pipeline.
+ */
+public class Equals implements ReactionPipelineStep {
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<Element> handle(List<Element> inputElements, Cell cell) {
+    for (int i = 1; i < inputElements.size(); i++) {
+      if (!inputElements.get(i).equals(inputElements.get(0))) {
+        return null;
+      }
+    }
+    return inputElements;
+  }
+
+  @Override
+  public String toString() {
+    return "Equals";
+  }
+}
