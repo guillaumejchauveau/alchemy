@@ -18,11 +18,6 @@ tasks.clean {
     if (cleanTask != null) {
       dependsOn(cleanTask)
     }
-
-    it.tasks.withType<JavaCompile>().configureEach {
-      options.compilerArgs.add("-Xlint:unchecked")
-      options.compilerArgs.add("-Xlint:deprecation")
-    }
   }
 }
 
@@ -47,6 +42,11 @@ subprojects {
       xml.isEnabled = true
       html.isEnabled = true
     }
+  }
+
+  tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs.add("-Xlint:unchecked")
+    options.compilerArgs.add("-Xlint:deprecation")
   }
 
   /*task("writePom") {
