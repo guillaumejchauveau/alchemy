@@ -2,7 +2,6 @@ package ovh.gecu.alchemy.lib.integers;
 
 import ovh.gecu.alchemy.core.genesis.ElementGenerator;
 import ovh.gecu.alchemy.core.reaction.ReactionPipelineStep;
-import ovh.gecu.alchemy.core.solution.Element;
 import ovh.gecu.alchemy.lib.InitArgsParser;
 import ovh.gecu.alchemy.lib.Library;
 import ovh.gecu.alchemy.lib.integers.genesis.Range;

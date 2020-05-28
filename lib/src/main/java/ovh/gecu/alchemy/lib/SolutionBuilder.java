@@ -4,7 +4,7 @@ import ovh.gecu.alchemy.core.genesis.ElementGenerator;
 import ovh.gecu.alchemy.core.reaction.ReactionPipeline;
 import ovh.gecu.alchemy.core.reaction.ReactionPipelineStep;
 import ovh.gecu.alchemy.core.solution.Cell;
-import ovh.gecu.alchemy.core.solution.Element;
+
 import java.util.Collection;
 
 /**

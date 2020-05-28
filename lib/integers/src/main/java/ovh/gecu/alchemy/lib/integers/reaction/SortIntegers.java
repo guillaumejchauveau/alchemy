@@ -1,6 +1,5 @@
 package ovh.gecu.alchemy.lib.integers.reaction;
 
-import ovh.gecu.alchemy.core.solution.Element;
 import ovh.gecu.alchemy.lib.common.reaction.Sort;
 
 public class SortIntegers extends Sort<Integer> {

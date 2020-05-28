@@ -1,7 +1,5 @@
 package ovh.gecu.alchemy.lib.integers.solution;
 
-import ovh.gecu.alchemy.lib.common.solution.ComparableElement;
-
 /**
  * An element representing an integer.
  */

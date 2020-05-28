@@ -7,7 +7,7 @@ public interface ElementDefinition {
 
   boolean isEnumerated();
 
-  boolean canReactWith(Class<?> elementType);
+  boolean canReactWith(Class<Object> elementType);
 
-  Method getReaction(Class<?> elementType);
+  Method getReaction(Class<Object> elementType);
 }

@@ -2,7 +2,6 @@ package ovh.gecu.alchemy.lib.integers.reaction;
 
 import ovh.gecu.alchemy.core.reaction.ReactionPipelineStep;
 import ovh.gecu.alchemy.core.solution.Cell;
-import ovh.gecu.alchemy.core.solution.Element;
 import ovh.gecu.alchemy.lib.integers.solution.IntegerElement;
 
 import java.util.ArrayList;

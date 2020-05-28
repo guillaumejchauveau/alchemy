@@ -1,5 +1,10 @@
 package ovh.gecu.alchemy.core.solution;
 
-public @interface Element {
+import java.lang.annotation.*;
 
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface Element {
+  boolean isEnumerated = false;
 }

@@ -2,8 +2,6 @@ package ovh.gecu.alchemy.lib.common.reaction;
 
 import ovh.gecu.alchemy.core.reaction.ReactionPipelineStep;
 import ovh.gecu.alchemy.core.solution.Cell;
-import ovh.gecu.alchemy.core.solution.Element;
-import ovh.gecu.alchemy.lib.common.solution.ComparableElement;
 
 import java.util.ArrayList;
 import java.util.List;

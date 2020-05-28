@@ -2,7 +2,7 @@ package ovh.gecu.alchemy.lib.common.reaction;
 
 import ovh.gecu.alchemy.core.reaction.ReactionPipelineStep;
 import ovh.gecu.alchemy.core.solution.Cell;
-import ovh.gecu.alchemy.core.solution.Element;
+
 import java.util.List;
 
 /**

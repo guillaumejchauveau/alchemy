@@ -1,7 +1,7 @@
 package ovh.gecu.alchemy.core.reactor;
 
 import ovh.gecu.alchemy.core.solution.Cell;
-import ovh.gecu.alchemy.core.solution.Element;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;

@@ -1,19 +1,16 @@
 package ovh.gecu.alchemy.lib.integers.genesis;
 
-import ovh.gecu.alchemy.core.genesis.ElementGenerator;
-import ovh.gecu.alchemy.core.solution.Element;
-import ovh.gecu.alchemy.lib.integers.solution.IntegerElement;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
- * An integer element generator.
+ * An integer generator.
  */
-public class Range implements ElementGenerator {
-  private Integer start;
-  private Integer stop;
-  private Integer step;
+public class Range implements Iterator<Integer> {
+  protected Integer start;
+  protected Integer stop;
+  protected Integer step;
+  protected Integer last;
 
   /**
    * Initializes the range generator. Throws an exception if the arguments will create an
@@ -30,17 +27,31 @@ public class Range implements ElementGenerator {
     this.start = start;
     this.stop = stop;
     this.step = step;
+    this.last = null;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
-  public List<Element> generate() {
-    var outputElement = new ArrayList<Element>();
-    for (int i = this.start; (step > 0) ? i < this.stop : i > this.stop; i += this.step) {
-      outputElement.add(new IntegerElement(i));
+  public boolean hasNext() {
+    if (this.last == null) {
+      return true;
     }
-    return outputElement;
+    if (step > 0) {
+      return this.last + this.step < this.stop;
+    } else {
+      return this.last - this.step > this.stop;
+    }
+  }
+
+  @Override
+  public Integer next() {
+    if (!this.hasNext()) {
+      throw new NoSuchElementException();
+    }
+    if (step > 0) {
+      this.last += this.step;
+    } else {
+      this.last -= this.step;
+    }
+    return this.last;
   }
 }
