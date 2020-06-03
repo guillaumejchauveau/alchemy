@@ -9,7 +9,6 @@ allprojects {
 plugins {
   base
   jacoco
-  id("org.javamodularity.moduleplugin") version "1.6.0" apply false
 }
 
 tasks.clean {
@@ -25,7 +24,6 @@ tasks.clean {
 subprojects {
   apply(plugin = "jacoco")
   apply(plugin = "java")
-  apply(plugin = "org.javamodularity.moduleplugin")
 
   tasks.withType<JacocoReport>().configureEach {
     reports {
@@ -44,15 +42,43 @@ subprojects {
     }
   }
 
+  tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+  }
+
+  plugins.withType<JavaPlugin>().configureEach {
+    configure<JavaPluginExtension> {
+      modularity.inferModulePath.set(true)
+    }
+
+    val integrationTest by the<SourceSetContainer>().creating
+
+    configurations["integrationTestImplementation"].extendsFrom(configurations["implementation"])
+    configurations["integrationTestRuntimeOnly"].extendsFrom(configurations["runtimeOnly"])
+
+    dependencies {
+      "integrationTestImplementation"(project(path))
+    }
+
+    val integrationTestJarTask = tasks.register<Jar>(integrationTest.jarTaskName) {
+      archiveClassifier.set("integration-tests")
+      from(integrationTest.output)
+    }
+    val integrationTestTask = tasks.register<Test>("integrationTest") {
+      description = "Runs integration tests."
+      group = "verification"
+
+      testClassesDirs = integrationTest.output.classesDirs
+      // Make sure we run the 'Jar' containing the tests (and not just the 'classes' folder) so that test resources are also part of the test module
+      classpath = configurations[integrationTest.runtimeClasspathConfigurationName] + files(integrationTestJarTask)
+      shouldRunAfter("test")
+    }
+
+    tasks.named("check") { dependsOn(integrationTestTask) }
+  }
+
   tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs.add("-Xlint:unchecked")
     options.compilerArgs.add("-Xlint:deprecation")
   }
-
-  /*task("writePom") {
-    doLast {
-      maven.pom {
-      }.writeTo("pom.xml")
-    }
-  }*/
 }

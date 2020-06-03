@@ -7,11 +7,6 @@ java {
 }
 
 dependencies {
-  implementation(project(":utils"))
   implementation(project(":core"))
-  testImplementation("junit:junit:4.13")
-}
-
-subprojects {
-  group = "ovh.gecu.alchemy.lib"
+  implementation(project(":utils"))
 }
