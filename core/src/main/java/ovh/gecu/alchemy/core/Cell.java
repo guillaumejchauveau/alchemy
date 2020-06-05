@@ -1,11 +1,10 @@
 package ovh.gecu.alchemy.core;
 
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.Map;
 
 public interface Cell {
-  void addElements(Iterator<?> elementIterator);
-  void addElements(Iterable<?> elementIterable);
   boolean react();
-  Collection<Object> toCollection();
+  Collection<Object> getElements();
+  Map<Class<?>, Integer> getCountedElements();
 }

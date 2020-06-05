@@ -1,6 +1,8 @@
 module ovh.gecu.alchemy.lib {
-  requires ovh.gecu.alchemy.core;
+  requires transitive ovh.gecu.alchemy.core;
+  requires com.speedment.common.tuple;
   requires org.apache.logging.log4j;
-  exports ovh.gecu.alchemy.lib.basic;
-  exports ovh.gecu.alchemy.lib.integers;
+  requires org.apache.logging.log4j.core;
+  exports ovh.gecu.alchemy.lib;
+  exports ovh.gecu.alchemy.lib.integer;
 }
