@@ -2,37 +2,40 @@ package ovh.gecu.alchemy.lib.util;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
 import org.apache.logging.log4j.core.config.plugins.util.PluginManager;
+import org.apache.logging.log4j.util.BiConsumer;
+import org.apache.logging.log4j.util.PropertySource;
+import ovh.gecu.alchemy.lib.util.log4j_plugins.SleepFilter;
 
-public class LoggingHelper {
+public class LoggingHelper implements PropertySource {
+  private static final String PREFIX = "log4j2.";
   private static Boolean isConfigured = false;
 
-  /**
-   * Configures Log4J application-wide.
-   *
-   * @param level The minimum logging level to print
-   */
-  public static void configureLoggingFramework(Level level) {
+  public static void configureLoggingFramework(Level level, boolean showThread, Integer sleepTime) {
     if (LoggingHelper.isConfigured) {
       return;
     }
     PluginManager.addPackage(SleepFilter.class.getPackageName());
 
-    var pattern = "%d{HH:mm:ss} %style{%thread}{underline} ";
+    var pattern = "";
+    if (showThread) {
+      pattern = "%style{%thread}{underline} ";
+    }
     pattern += "%highlight{%-5level}{";
     pattern += "FATAL=red bright, ERROR=red, WARN=yellow, INFO=blue, DEBUG=cyan, TRACE=white} ";
-    pattern += "%style{%c{-2}}{bright}: %msg{ansi}%n%style{%throwable}{white}";
+    pattern += "%style{%c{1}}{bright}: %msg{ansi}%n%style{%throwable}{white}";
 
     var builder = ConfigurationBuilderFactory.newConfigurationBuilder();
-    var appenderBuilder = builder.newAppender("StdERR", "CONSOLE")
-                                 .addAttribute("target", ConsoleAppender.Target.SYSTEM_ERR);
+    var appenderBuilder = builder.newAppender("StdERR", ConsoleAppender.PLUGIN_NAME)
+      .addAttribute("target", ConsoleAppender.Target.SYSTEM_ERR);
     var layout = builder.newLayout("PatternLayout")
-                        .addAttribute("pattern", pattern);
-    var sleepFilter = builder.newFilter("SleepFilter", "NEUTRAL", "NEUTRAL")
-                             .addAttribute("time", 500);
+      .addAttribute("pattern", pattern);
+    var sleepFilter = builder.newFilter("SleepFilter", Filter.Result.NEUTRAL, Filter.Result.NEUTRAL)
+      .addAttribute("time", sleepTime);
     appenderBuilder.add(layout);
     appenderBuilder.add(sleepFilter);
     builder.add(appenderBuilder);
@@ -42,5 +45,37 @@ public class LoggingHelper {
     var logger = LogManager.getLogger();
     logger.trace("Logging framework configured");
     LoggingHelper.isConfigured = true;
+  }
+
+  public static void configureLoggingFramework(Level level, boolean showThread) {
+    configureLoggingFramework(level, showThread, 500);
+  }
+
+  public static void configureLoggingFramework(Level level) {
+    configureLoggingFramework(level, true);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public int getPriority() {
+    return -200;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void forEach(BiConsumer<String, String> action) {
+    action.accept("log4j2.skipJansi", "false");
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public CharSequence getNormalForm(Iterable<? extends CharSequence> tokens) {
+    return PREFIX + PropertySource.Util.joinAsCamelCase(tokens);
   }
 }

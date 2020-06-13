@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import ovh.gecu.alchemy.core.Cell;
 import ovh.gecu.alchemy.core.Reaction;
 import ovh.gecu.alchemy.lib.internal.ReactantInfo;
-import ovh.gecu.alchemy.lib.util.SleepFilter;
+import ovh.gecu.alchemy.lib.util.ReactionMessage;
 
 import java.util.*;
 
@@ -108,7 +108,7 @@ class BasicCell implements Cell {
       this.addElement(reactants.get1().getStorageValue());
       return false;
     }
-    this.logger.debug(SleepFilter.MARKER, String.format("Elements %s replaced by %s", reactants, Arrays.toString(products)));
+    this.logger.debug(new ReactionMessage(reactants, products));
     for (var product : products) {
       this.addElement(product);
     }

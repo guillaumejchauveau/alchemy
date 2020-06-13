@@ -2,6 +2,7 @@ package ovh.gecu.alchemy.core;
 
 public interface Reactor extends Runnable {
   enum State {
+    INVALID,
     IDLE,
     PROCESSING,
     STABLE,
@@ -11,4 +12,8 @@ public interface Reactor extends Runnable {
   }
 
   State getState();
+
+  void setCell(Cell cell);
+
+  Cell getCell();
 }
