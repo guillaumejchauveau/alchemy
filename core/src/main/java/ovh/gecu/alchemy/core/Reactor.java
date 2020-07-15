@@ -45,11 +45,15 @@ public interface Reactor extends Runnable {
 
   /**
    * Sets the program to be executed by the reactor.
+   *
+   * @param cell The cell representing the program
    */
   void setCell(Cell cell);
 
   /**
    * Returns the program executed by the reactor.
+   *
+   * @return The cell representing the program
    */
   Cell getCell();
 }

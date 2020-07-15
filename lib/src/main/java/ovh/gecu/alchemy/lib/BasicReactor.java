@@ -25,7 +25,7 @@ public class BasicReactor extends AbstractReactor {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   protected void process() {

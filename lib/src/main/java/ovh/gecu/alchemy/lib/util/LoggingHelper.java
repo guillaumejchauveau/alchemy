@@ -2,14 +2,11 @@ package ovh.gecu.alchemy.lib.util;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
-import org.apache.logging.log4j.core.config.plugins.util.PluginManager;
 import org.apache.logging.log4j.util.BiConsumer;
 import org.apache.logging.log4j.util.PropertySource;
-import ovh.gecu.alchemy.lib.util.log4j_plugins.SleepFilter;
 
 /**
  * Utility class to configure Log4J.
@@ -23,14 +20,11 @@ public class LoggingHelper implements PropertySource {
    *
    * @param level Logging level
    * @param showThread Print the thread emitting the logs in the console
-   * @param sleepTime Time before printing the next log
    */
-  public static void configureLoggingFramework(Level level, boolean showThread, Integer sleepTime) {
+  public static void configureLoggingFramework(Level level, boolean showThread) {
     if (LoggingHelper.isConfigured) {
       return;
     }
-    PluginManager.addPackage(SleepFilter.class.getPackageName());
-
     var pattern = "";
     if (showThread) {
       pattern = "%style{%thread}{underline} ";
@@ -44,10 +38,7 @@ public class LoggingHelper implements PropertySource {
       .addAttribute("target", ConsoleAppender.Target.SYSTEM_ERR);
     var layout = builder.newLayout("PatternLayout")
       .addAttribute("pattern", pattern);
-    var sleepFilter = builder.newFilter("SleepFilter", Filter.Result.NEUTRAL, Filter.Result.NEUTRAL)
-      .addAttribute("time", sleepTime);
     appenderBuilder.add(layout);
-    appenderBuilder.add(sleepFilter);
     builder.add(appenderBuilder);
     builder.add(builder.newRootLogger(level).add(builder.newAppenderRef("StdERR")));
 
@@ -55,10 +46,6 @@ public class LoggingHelper implements PropertySource {
     var logger = LogManager.getLogger();
     logger.trace("Logging framework configured");
     LoggingHelper.isConfigured = true;
-  }
-
-  public static void configureLoggingFramework(Level level, boolean showThread) {
-    configureLoggingFramework(level, showThread, 500);
   }
 
   public static void configureLoggingFramework(Level level) {

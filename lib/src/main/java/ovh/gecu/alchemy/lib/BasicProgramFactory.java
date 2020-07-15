@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 /**
  * This factory uses a {@link BasicCell}.
  *
- * @inheritDoc
+ * {@inheritDoc}
  */
 class BasicProgramFactory implements ProgramFactory {
   private final BasicCell cell;
@@ -26,7 +26,7 @@ class BasicProgramFactory implements ProgramFactory {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public Cell getCell() {
@@ -34,7 +34,7 @@ class BasicProgramFactory implements ProgramFactory {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public Reactor getReactor() {
@@ -42,7 +42,7 @@ class BasicProgramFactory implements ProgramFactory {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public ProgramFactory load(Method method) {
@@ -69,7 +69,7 @@ class BasicProgramFactory implements ProgramFactory {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public ProgramFactory load(Class<?> clazz) {
@@ -80,7 +80,7 @@ class BasicProgramFactory implements ProgramFactory {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -90,7 +90,7 @@ class BasicProgramFactory implements ProgramFactory {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public ProgramFactory add(Class<?> element, Integer amount) {
@@ -99,7 +99,7 @@ class BasicProgramFactory implements ProgramFactory {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public ProgramFactory add(Iterator<?> elementIterator) {
@@ -108,7 +108,7 @@ class BasicProgramFactory implements ProgramFactory {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public ProgramFactory add(Iterable<?> elementIterable) {
@@ -117,7 +117,7 @@ class BasicProgramFactory implements ProgramFactory {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public ProgramFactory add(Stream<?> elementStream) {
@@ -126,7 +126,7 @@ class BasicProgramFactory implements ProgramFactory {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public ProgramFactory withReactor(Reactor reactor) {

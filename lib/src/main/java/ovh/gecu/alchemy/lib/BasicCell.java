@@ -159,7 +159,7 @@ class BasicCell implements Cell {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public boolean react() {
@@ -183,7 +183,7 @@ class BasicCell implements Cell {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public Collection<Object> getElements() {
@@ -191,7 +191,7 @@ class BasicCell implements Cell {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public Map<Class<?>, Integer> getCountedElements() {

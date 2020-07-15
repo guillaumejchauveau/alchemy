@@ -12,7 +12,7 @@ public abstract class AbstractReactor implements Reactor {
   protected State state;
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public State getState() {
@@ -20,7 +20,7 @@ public abstract class AbstractReactor implements Reactor {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public void setCell(Cell cell) {
@@ -31,7 +31,7 @@ public abstract class AbstractReactor implements Reactor {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public Cell getCell() {
