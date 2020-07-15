@@ -1,6 +1,6 @@
 package ovh.gecu.alchemy.lib.testFixtures;
 
-import ovh.gecu.alchemy.core.annotation.Reaction;
+import ovh.gecu.alchemy.lib.annotation.Reaction;
 
 public class MyProgram {
   @Reaction

@@ -11,10 +11,20 @@ import org.apache.logging.log4j.util.BiConsumer;
 import org.apache.logging.log4j.util.PropertySource;
 import ovh.gecu.alchemy.lib.util.log4j_plugins.SleepFilter;
 
+/**
+ * Utility class to configure Log4J.
+ */
 public class LoggingHelper implements PropertySource {
   private static final String PREFIX = "log4j2.";
   private static Boolean isConfigured = false;
 
+  /**
+   * Configures Log4J.
+   *
+   * @param level Logging level
+   * @param showThread Print the thread emitting the logs in the console
+   * @param sleepTime Time before printing the next log
+   */
   public static void configureLoggingFramework(Level level, boolean showThread, Integer sleepTime) {
     if (LoggingHelper.isConfigured) {
       return;

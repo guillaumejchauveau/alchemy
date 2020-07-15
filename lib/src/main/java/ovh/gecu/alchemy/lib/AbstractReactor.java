@@ -4,20 +4,24 @@ import org.apache.logging.log4j.Logger;
 import ovh.gecu.alchemy.core.Cell;
 import ovh.gecu.alchemy.core.Reactor;
 
+/**
+ * Base class for {@link Reactor} implementations.
+ */
 public abstract class AbstractReactor implements Reactor {
   protected Cell cell;
   protected State state;
 
   /**
-   * Indicates the state of the reactor.
-   *
-   * @return The state of the reactor
+   * @inheritDoc
    */
   @Override
   public State getState() {
     return this.state;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public void setCell(Cell cell) {
     this.cell = cell;
@@ -26,13 +30,24 @@ public abstract class AbstractReactor implements Reactor {
     }
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public Cell getCell() {
     return this.cell;
   }
 
+  /**
+   * Internal logic for running the program.
+   *
+   * @see AbstractReactor#run
+   */
   protected abstract void process();
 
+  /**
+   * Retrieves the internal logger of the reactor.
+   */
   protected abstract Logger getLogger();
 
   /**

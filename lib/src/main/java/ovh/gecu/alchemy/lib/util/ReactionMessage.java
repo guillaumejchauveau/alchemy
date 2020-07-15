@@ -6,12 +6,16 @@ import ovh.gecu.alchemy.lib.internal.ReactantInfo;
 
 import java.util.Arrays;
 
+/**
+ * Handles messages for a reaction. Formats a string with the reactants and the
+ * products.
+ */
 public class ReactionMessage extends FormattedMessage {
   public ReactionMessage(Tuple2<ReactantInfo, ReactantInfo> reactants, Object[] products) {
     super(
       "({}, {}) -> {{}}",
-      ReactionMessage.createReactantString(reactants.get0()),
-      ReactionMessage.createReactantString(reactants.get1()),
+      createReactantString(reactants.get0()),
+      createReactantString(reactants.get1()),
       Arrays.stream(products).reduce("", (s, product) -> {
         ReactantInfo info;
         if (product instanceof Class) {
@@ -22,11 +26,16 @@ public class ReactionMessage extends FormattedMessage {
         if (!((String) s).isEmpty()) {
           s = s + ", ";
         }
-        return s + ReactionMessage.createReactantString(info);
+        return s + createReactantString(info);
       })
     );
   }
 
+  /**
+   * Formats a string representing a reactant.
+   * @param reactantInfo Data concerning the reactant
+   * @return The formatted string
+   */
   protected static String createReactantString(ReactantInfo reactantInfo) {
     var s = new StringBuilder();
     if (reactantInfo.value != null) {

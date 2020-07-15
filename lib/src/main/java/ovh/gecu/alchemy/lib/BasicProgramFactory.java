@@ -11,6 +11,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+/**
+ * This factory uses a {@link BasicCell}.
+ *
+ * @inheritDoc
+ */
 class BasicProgramFactory implements ProgramFactory {
   private final BasicCell cell;
   private Reactor reactor;
@@ -20,16 +25,25 @@ class BasicProgramFactory implements ProgramFactory {
     this.reactor = null;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public Cell getCell() {
     return this.cell;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public Reactor getReactor() {
     return this.reactor;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public ProgramFactory load(Method method) {
     if (!method.getReturnType().equals(Object[].class)) {
@@ -54,14 +68,20 @@ class BasicProgramFactory implements ProgramFactory {
     return this;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public ProgramFactory load(Class<?> clazz) {
     Arrays.stream(clazz.getMethods())
-      .filter(method -> method.isAnnotationPresent(ovh.gecu.alchemy.core.annotation.Reaction.class))
+      .filter(method -> method.isAnnotationPresent(ovh.gecu.alchemy.lib.annotation.Reaction.class))
       .forEach(this::load);
     return this;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   @SuppressWarnings("unchecked")
   public <R1, R2> ProgramFactory add(Class<R1> reactantType1, Class<R2> reactantType2, Reaction<R1, R2> reaction) {
@@ -69,30 +89,45 @@ class BasicProgramFactory implements ProgramFactory {
     return this;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
-  public ProgramFactory add(Class<?> element, Integer count) {
-    this.cell.addCountedElement(element, count);
+  public ProgramFactory add(Class<?> element, Integer amount) {
+    this.cell.addCountedElement(element, amount);
     return this;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public ProgramFactory add(Iterator<?> elementIterator) {
     elementIterator.forEachRemaining(this.cell::addElement);
     return this;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public ProgramFactory add(Iterable<?> elementIterable) {
     elementIterable.forEach(this.cell::addElement);
     return this;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public ProgramFactory add(Stream<?> elementStream) {
     elementStream.forEach(this.cell::addElement);
     return this;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public ProgramFactory withReactor(Reactor reactor) {
     this.reactor = reactor;

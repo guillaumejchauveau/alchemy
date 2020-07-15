@@ -5,10 +5,22 @@ import ovh.gecu.alchemy.core.Reaction;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+
+/**
+ * A reaction implemented using a class method (can be static).
+ * The method will be invoked with the first reactant as the instance for the
+ * method (so the method should be on the reactant's type's class) and the
+ * second reactant the argument. If the method is static, both reactants are
+ * arguments.
+ */
 public class MethodReaction implements Reaction<Object, Object> {
   private final Method method;
   private final Boolean isStatic;
 
+  /**
+   * Creates a method reaction using a given Method object.
+   * @param method The method to invoke as the reaction.
+   */
   public MethodReaction(Method method) {
     this.method = method;
     this.isStatic = Modifier.isStatic(method.getModifiers());

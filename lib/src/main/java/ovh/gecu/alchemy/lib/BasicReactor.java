@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- *
+ * Simple reactor implementation.
  */
 public class BasicReactor extends AbstractReactor {
   protected final Logger logger;
@@ -25,7 +25,7 @@ public class BasicReactor extends AbstractReactor {
   }
 
   /**
-   * Executes the program with the pre-configured parameters.
+   * @inheritDoc
    */
   @Override
   protected void process() {
@@ -39,8 +39,12 @@ public class BasicReactor extends AbstractReactor {
         break;
       }
 
+      // No reaction occurred.
       if (!this.cell.react()) {
         stability++;
+        // A reaction occurred.
+      } else {
+        stability = 0;
       }
     }
     this.state = State.STOPPED;
