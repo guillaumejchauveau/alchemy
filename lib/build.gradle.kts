@@ -1,6 +1,5 @@
 plugins {
   `java-library`
-  `java-test-fixtures`
 }
 
 java {
@@ -14,8 +13,6 @@ dependencies {
   runtimeOnly("org.fusesource.jansi:jansi:1.18")
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-  integrationTestImplementation(testFixtures(project(path)))
   integrationTestImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
   integrationTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-  testFixturesImplementation(project(":core"))
 }

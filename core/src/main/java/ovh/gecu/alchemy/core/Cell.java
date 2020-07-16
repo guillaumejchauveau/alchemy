@@ -25,11 +25,11 @@ public interface Cell {
   /**
    * Returns a collection of all elements currently in instance storage.
    */
-  Collection<Object> getElements();
+  Collection<Object> getInstanceElements();
 
   /**
    * Returns a map associating the types of the elements in quantity storage and
    * their corresponding quantity.
    */
-  Map<Class<?>, Integer> getCountedElements();
+  Map<Class<?>, Integer> getQuantityElements();
 }

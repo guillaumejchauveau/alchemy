@@ -12,6 +12,9 @@ import java.lang.reflect.Modifier;
  * method (so the method should be on the reactant's type's class) and the
  * second reactant the argument. If the method is static, both reactants are
  * arguments.
+ * If the first reactant is suppose to be quantity-stored, the method has to be
+ * static as the reactant will not be an instance, so cannot be used to call a
+ * non-static method.
  */
 public class MethodReaction implements Reaction<Object, Object> {
   private final Method method;
@@ -19,6 +22,7 @@ public class MethodReaction implements Reaction<Object, Object> {
 
   /**
    * Creates a method reaction using a given Method object.
+   *
    * @param method The method to invoke as the reaction.
    */
   public MethodReaction(Method method) {

@@ -94,7 +94,7 @@ class BasicProgramFactory implements ProgramFactory {
    */
   @Override
   public ProgramFactory add(Class<?> element, Integer amount) {
-    this.cell.addCountedElement(element, amount);
+    this.cell.addQuantityElement(element, amount);
     return this;
   }
 

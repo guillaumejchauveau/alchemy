@@ -28,7 +28,8 @@ public interface ProgramFactory {
   Reactor getReactor();
 
   /**
-   * Adds elements (normal or counted) to the cell using an {@link Iterator}.
+   * Adds elements (instance or quantity counted) to the cell using an
+   * {@link Iterator}.
    *
    * @param elementIterator The iterator over the elements
    * @return The factory
@@ -36,7 +37,8 @@ public interface ProgramFactory {
   ProgramFactory add(Iterator<?> elementIterator);
 
   /**
-   * Adds elements (normal or counted) to the cell using an {@link Iterable}.
+   * Adds elements (instance or quantity counted) to the cell using an
+   * {@link Iterable}.
    *
    * @param elementIterable The iterable over the elements
    * @return The factory
@@ -44,7 +46,8 @@ public interface ProgramFactory {
   ProgramFactory add(Iterable<?> elementIterable);
 
   /**
-   * Adds elements (normal or counted) to the cell using a {@link Stream}.
+   * Adds elements (instance or quantity counted) to the cell using a
+   * {@link Stream}.
    *
    * @param elementStream The stream with the elements
    * @return The factory
@@ -52,10 +55,10 @@ public interface ProgramFactory {
   ProgramFactory add(Stream<?> elementStream);
 
   /**
-   * Adds a given quantity of a given counted element.
+   * Adds a given amount of a given quantity-stored element.
    *
-   * @param element The counted element (a type)
-   * @param amount  The quantity to add
+   * @param element The quantity element (a type)
+   * @param amount  The amount to add
    * @return The factory
    */
   ProgramFactory add(Class<?> element, Integer amount);

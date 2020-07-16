@@ -2,7 +2,7 @@ package ovh.gecu.alchemy.lib.internal;
 
 /**
  * Utility class used internally by BasicCell.
- * Holds the type of a reactant along with its instance if it is a normal
+ * Holds the type of a reactant along with its instance if it is an instance
  * element.
  */
 public class ReactantInfo {
@@ -11,7 +11,8 @@ public class ReactantInfo {
    */
   public final Class<?> type;
   /**
-   * Actual value of the reactant, null if the reactant is a counted element.
+   * Actual value of the reactant, null if the reactant is a quantity-stored
+   * element.
    */
   public final Object value;
 
@@ -28,8 +29,8 @@ public class ReactantInfo {
   /**
    * Getter for the actual data stored in the cell.
    *
-   * @return The actual instance for a normal element or the type for a counted
-   * element
+   * @return The actual instance for a instance-stored element or the type for
+   * a quantity-stored element
    */
   public Object getStorageValue() {
     if (this.value == null) {

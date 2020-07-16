@@ -19,8 +19,8 @@ import java.util.*;
  */
 class BasicCell implements Cell {
   protected Map<Tuple2<? extends Class<?>, ? extends Class<?>>, Reaction<Object, Object>> reactionDefinitions;
-  protected List<Object> elements;
-  protected Map<Class<?>, Integer> countedElements;
+  protected List<Object> instanceElements;
+  protected Map<Class<?>, Integer> quantityElements;
   protected Random random;
   Logger logger;
 
@@ -29,8 +29,8 @@ class BasicCell implements Cell {
    */
   public BasicCell() {
     this.reactionDefinitions = new HashMap<>();
-    this.elements = new ArrayList<>();
-    this.countedElements = new HashMap<>();
+    this.instanceElements = new ArrayList<>();
+    this.quantityElements = new HashMap<>();
     this.random = new Random();
     this.logger = LogManager.getLogger();
   }
@@ -55,38 +55,38 @@ class BasicCell implements Cell {
   }
 
   /**
-   * Adds a given amount of a counted element.
+   * Adds a given amount of a quantity-stored element.
    *
-   * @param element The counted element to increase the amount of
+   * @param element The quantity-stored element to increase the amount of
    * @param amount  The amount to add
    */
-  protected void addCountedElement(Class<?> element, Integer amount) {
-    this.countedElements.put(
+  protected void addQuantityElement(Class<?> element, Integer amount) {
+    this.quantityElements.put(
       element,
-      this.countedElements.getOrDefault(element, 0) + amount);
+      this.quantityElements.getOrDefault(element, 0) + amount);
   }
 
   /**
-   * Adds an element (normal or counted) to the cell.
+   * Adds an element (instance or quantity stored) to the cell.
    *
    * @param element The element to add
    */
   protected synchronized void addElement(Object element) {
     if (element instanceof Class) {
-      this.addCountedElement((Class<?>) element, 1);
+      this.addQuantityElement((Class<?>) element, 1);
       return;
     }
-    this.elements.add(element);
+    this.instanceElements.add(element);
   }
 
   /**
    * Calculates the total element count.
    *
-   * @return The total number of normal and counted elements in the cell
+   * @return The total number of instance and quantity elements in the cell
    */
   protected Integer getTotalElementCount() {
-    var count = this.elements.size();
-    for (var c : this.countedElements.values()) {
+    var count = this.instanceElements.size();
+    for (var c : this.quantityElements.values()) {
       count += c;
     }
     return count;
@@ -94,24 +94,24 @@ class BasicCell implements Cell {
 
   private ReactantInfo pickReactant(Integer count) {
     var i = this.random.nextInt(count);
-    // Pick in the normal elements storage.
-    if (i < this.elements.size()) {
-      var element = this.elements.get(i);
-      this.elements.remove(i);
+    // Pick in the instance elements storage.
+    if (i < this.instanceElements.size()) {
+      var element = this.instanceElements.get(i);
+      this.instanceElements.remove(i);
       return new ReactantInfo(element);
-      // Pick in the counted elements storage.
+      // Pick in the quantity elements storage.
     } else {
-      // Offset the normal elements storage.
-      i -= this.elements.size();
-      // Finds the corresponding counted element.
-      for (var countedElementCount : this.countedElements.entrySet()) {
-        if (i < countedElementCount.getValue()) {
-          this.countedElements.put(
-            countedElementCount.getKey(),
-            countedElementCount.getValue() - 1);
-          return new ReactantInfo(countedElementCount.getKey());
+      // Offset the instance elements storage.
+      i -= this.instanceElements.size();
+      // Finds the corresponding quantity element.
+      for (var quantityElementCount : this.quantityElements.entrySet()) {
+        if (i < quantityElementCount.getValue()) {
+          this.quantityElements.put(
+            quantityElementCount.getKey(),
+            quantityElementCount.getValue() - 1);
+          return new ReactantInfo(quantityElementCount.getKey());
         }
-        i -= countedElementCount.getValue();
+        i -= quantityElementCount.getValue();
       }
     }
     return null;
@@ -186,15 +186,15 @@ class BasicCell implements Cell {
    * {@inheritDoc}
    */
   @Override
-  public Collection<Object> getElements() {
-    return this.elements;
+  public Collection<Object> getInstanceElements() {
+    return this.instanceElements;
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Map<Class<?>, Integer> getCountedElements() {
-    return this.countedElements;
+  public Map<Class<?>, Integer> getQuantityElements() {
+    return this.quantityElements;
   }
 }
