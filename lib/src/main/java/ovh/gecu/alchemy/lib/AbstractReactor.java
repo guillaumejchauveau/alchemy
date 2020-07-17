@@ -25,9 +25,7 @@ public abstract class AbstractReactor implements Reactor {
   @Override
   public void setCell(Cell cell) {
     this.cell = cell;
-    if (cell != null) {
-      this.state = State.IDLE;
-    }
+    this.state = (cell != null) ? State.IDLE : State.INVALID;
   }
 
   /**
@@ -56,7 +54,7 @@ public abstract class AbstractReactor implements Reactor {
   @Override
   public void run() {
     if (this.state != State.IDLE) {
-      throw new RuntimeException("Reactor must be idle before running");
+      throw new IllegalStateException("Reactor must be idle before running");
     }
     try {
       this.state = State.PROCESSING;
@@ -69,7 +67,7 @@ public abstract class AbstractReactor implements Reactor {
     } catch (Exception e) {
       this.state = State.FAILED;
       this.getLogger().error("An error occurred while processing cell '" + this.cell + "'", e);
-      throw e;
+      throw new RuntimeException(e);
     }
   }
 }

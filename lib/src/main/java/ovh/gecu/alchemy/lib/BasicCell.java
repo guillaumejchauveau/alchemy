@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ovh.gecu.alchemy.core.Cell;
 import ovh.gecu.alchemy.core.Reaction;
-import ovh.gecu.alchemy.lib.internal.ReactantInfo;
 import ovh.gecu.alchemy.lib.util.ReactionMessage;
 
 import java.util.*;
@@ -17,7 +16,7 @@ import java.util.*;
  * This cell is not tested for parallel execution. However, critical sections
  * used by the reactor are synchronized.
  */
-class BasicCell implements Cell {
+public class BasicCell implements Cell {
   protected Map<Tuple2<? extends Class<?>, ? extends Class<?>>, Reaction<Object, Object>> reactionDefinitions;
   protected List<Object> instanceElements;
   protected Map<Class<?>, Integer> quantityElements;
@@ -38,7 +37,7 @@ class BasicCell implements Cell {
   /**
    * Adds a reaction to the cell. The reactions are identified with a tuple of
    * their reactant types.
-   * Technically, two different reaction of inverted reactant types (A, B) and
+   * Technically, two different reaction of symmetric reactant types (A, B) and
    * (B, A) can be registered. See {@link BasicCell#getProducts(Tuple2)} for
    * more details on the behavior.
    *
@@ -99,20 +98,18 @@ class BasicCell implements Cell {
       var element = this.instanceElements.get(i);
       this.instanceElements.remove(i);
       return new ReactantInfo(element);
-      // Pick in the quantity elements storage.
-    } else {
-      // Offset the instance elements storage.
-      i -= this.instanceElements.size();
-      // Finds the corresponding quantity element.
-      for (var quantityElementCount : this.quantityElements.entrySet()) {
-        if (i < quantityElementCount.getValue()) {
-          this.quantityElements.put(
-            quantityElementCount.getKey(),
-            quantityElementCount.getValue() - 1);
-          return new ReactantInfo(quantityElementCount.getKey());
-        }
-        i -= quantityElementCount.getValue();
+    }
+    // Offset the instance elements storage to pick in the quantity element storage.
+    i -= this.instanceElements.size();
+    // Finds the corresponding quantity element.
+    for (var quantityElementCount : this.quantityElements.entrySet()) {
+      if (i < quantityElementCount.getValue()) {
+        this.quantityElements.put(
+          quantityElementCount.getKey(),
+          quantityElementCount.getValue() - 1);
+        return new ReactantInfo(quantityElementCount.getKey());
       }
+      i -= quantityElementCount.getValue();
     }
     return null;
   }
@@ -137,7 +134,7 @@ class BasicCell implements Cell {
    * Finds the reaction corresponding to the given reactant pair and computes
    * the products.
    * If the reaction for reactants of different type A, B is not registered,
-   * tries to find the reaction for B, A.
+   * tries to find the symmetric reaction for B, A.
    *
    * @param reactants A pair of reactant info
    * @return The products of the reaction or null if no reaction was found

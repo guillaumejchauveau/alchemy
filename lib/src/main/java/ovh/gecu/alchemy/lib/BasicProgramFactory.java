@@ -3,7 +3,6 @@ package ovh.gecu.alchemy.lib;
 import ovh.gecu.alchemy.core.Cell;
 import ovh.gecu.alchemy.core.Reaction;
 import ovh.gecu.alchemy.core.Reactor;
-import ovh.gecu.alchemy.lib.internal.MethodReaction;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -16,9 +15,9 @@ import java.util.stream.Stream;
  *
  * {@inheritDoc}
  */
-class BasicProgramFactory implements ProgramFactory {
-  private final BasicCell cell;
-  private Reactor reactor;
+public class BasicProgramFactory implements ProgramFactory {
+  protected final BasicCell cell;
+  protected Reactor reactor;
 
   public BasicProgramFactory() {
     this.cell = new BasicCell();

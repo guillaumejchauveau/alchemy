@@ -1,4 +1,4 @@
-package ovh.gecu.alchemy.lib.internal;
+package ovh.gecu.alchemy.lib;
 
 import org.junit.jupiter.api.Test;
 

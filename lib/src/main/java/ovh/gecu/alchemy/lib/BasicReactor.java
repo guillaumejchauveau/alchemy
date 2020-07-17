@@ -36,7 +36,7 @@ public class BasicReactor extends AbstractReactor {
       if (stability >= this.stabilityTarget) {
         this.state = State.STABLE;
         this.getLogger().info("Solution reached target stability");
-        break;
+        return;
       }
 
       // No reaction occurred.

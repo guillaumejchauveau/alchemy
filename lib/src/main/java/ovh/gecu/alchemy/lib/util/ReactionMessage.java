@@ -2,7 +2,7 @@ package ovh.gecu.alchemy.lib.util;
 
 import com.speedment.common.tuple.Tuple2;
 import org.apache.logging.log4j.message.FormattedMessage;
-import ovh.gecu.alchemy.lib.internal.ReactantInfo;
+import ovh.gecu.alchemy.lib.ReactantInfo;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package ovh.gecu.alchemy.lib.internal;
+package ovh.gecu.alchemy.lib;
 
 /**
  * Utility class used internally by BasicCell.
