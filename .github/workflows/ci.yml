@@ -1,13 +1,13 @@
 name: CI
 
-on: [push]
 jobs:
-  build:
+  check:
+    on: push
     runs-on: ubuntu-latest
     strategy:
       matrix:
         java: [ 11, 13, 14 ]
-    name: Java ${{ matrix.java }} build
+    name: Java ${{ matrix.java }} check
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK
@@ -16,5 +16,52 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build with Gradle
-        run: ./gradlew build -s
+      - name: Check with Gradle
+        run: ./gradlew check -s
+  release:
+    on:
+      push: tags
+    runs-on: ubuntu-latest
+    env:
+      USERNAME: ${{ github.repository_owner }}
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    name: Release
+      steps:
+        - uses: actions/checkout@v2
+        - name: Set up JDK
+          uses: actions/setup-java@v1
+          with:
+            java-version: 13
+        - name: Grant execute permission for gradlew
+          run: chmod +x gradlew
+        - name: Build distributions
+          run: ./gradlew distZip && mv ./core/build/distributions/core-*.zip ./core/build/distributions/core.zip && mv ./lib/build/distributions/lib-*.zip ./lib/build/distributions/lib.zip
+        - name: Create Release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            tag_name: ${{ github.ref }}
+            release_name: Release ${{ github.ref }}
+            draft: false
+            prerelease: false
+        - name: Upload Core release asset
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./core/build/distributions/core.zip
+            asset_name: core-${{ github.ref }}.zip
+            asset_content_type: application/zip
+        - name: Upload Lib release asset
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+              asset_path: ./lib/build/distributions/lib.zip
+              asset_name: lib-${{ github.ref }}.zip
+            asset_content_type: application/zip
+        - name: Publish packages
+          run: ./gradlew publish

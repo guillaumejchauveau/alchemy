@@ -1,7 +1,18 @@
-plugins {
-  `java-library`
-}
+publishing {
+  publications {
+    create<MavenPublication>("core") {
+      from(components["java"])
+    }
+  }
 
-java {
-  sourceCompatibility = JavaVersion.VERSION_11
+  repositories {
+    maven {
+      name = "GitHubPackages"
+      url = uri("https://maven.pkg.github.com/guillaumejchauveau/alchemy")
+      credentials {
+        username = System.getenv("USERNAME")
+        password = System.getenv("TOKEN")
+      }
+    }
+  }
 }

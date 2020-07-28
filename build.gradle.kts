@@ -1,14 +1,14 @@
+plugins {
+  base
+  java
+}
+
 allprojects {
   group = "ovh.gecu.alchemy"
   version = "2.0"
   repositories {
     mavenCentral()
   }
-}
-
-plugins {
-  base
-  jacoco
 }
 
 tasks.clean {
@@ -20,10 +20,16 @@ tasks.clean {
   }
 }
 
-
 subprojects {
   apply(plugin = "jacoco")
   apply(plugin = "java")
+  apply(plugin = "maven-publish")
+  apply(plugin = "java-library")
+  apply(plugin = "java-library-distribution")
+
+  java {
+    sourceCompatibility = JavaVersion.VERSION_11
+  }
 
   tasks.withType<JacocoReport>().configureEach {
     reports {
