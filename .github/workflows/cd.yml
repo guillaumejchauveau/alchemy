@@ -18,7 +18,8 @@ jobs:
           java-version: 13
       - run: chmod +x gradlew
       - run: ./gradlew distZip && mv ./core/build/distributions/core-*.zip ./core/build/distributions/core.zip && mv ./lib/build/distributions/lib-*.zip ./lib/build/distributions/lib.zip
-      - uses: actions/create-release@v1
+      - id: create_release
+        uses: actions/create-release@v1
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}

@@ -5,7 +5,7 @@ plugins {
 
 allprojects {
   group = "ovh.gecu.alchemy"
-  version = "2.0"
+  version = "2.0.0-alpha.2"
   repositories {
     mavenCentral()
   }
