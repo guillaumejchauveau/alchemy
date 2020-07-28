@@ -1,9 +1,11 @@
 package ovh.gecu.alchemy.lib;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import ovh.gecu.alchemy.core.Reactor;
+import ovh.gecu.alchemy.lib.util.LoggingHelper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,6 +24,7 @@ public class AbstractReactorTest {
     protected void process() {
       this.processCalled = true;
       if (this.doThrow) {
+        this.doThrow = false;
         throw new RuntimeException("hello");
       }
     }
@@ -34,6 +37,7 @@ public class AbstractReactorTest {
 
   @Test
   public void test() {
+    LoggingHelper.configureLoggingFramework(Level.OFF);
     var reactor = new ReactorMock();
     assertThrows(IllegalStateException.class, reactor::run);
     reactor.setCell(new BasicCell());
