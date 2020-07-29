@@ -92,6 +92,15 @@ public class BasicProgramFactory implements ProgramFactory {
    * {@inheritDoc}
    */
   @Override
+  public ProgramFactory add(Object element) {
+    this.cell.addElement(element);
+    return this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public ProgramFactory add(Class<?> element, Integer amount) {
     this.cell.addQuantityElement(element, amount);
     return this;

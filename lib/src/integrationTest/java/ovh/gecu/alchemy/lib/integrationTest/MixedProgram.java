@@ -32,7 +32,7 @@ public class MixedProgram {
       .add(A.class, 5)
       .add(B.class, 8)
       .load(A.class)
-      .withReactor(new BasicReactor(10000, 5000))
+      .withReactor(new BasicReactor(10000))
       .run()
       .getCell();
     System.out.println(cell.getInstanceElements());

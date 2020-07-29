@@ -27,7 +27,7 @@ public class PrimesProgram {
     var primes = Alchemy.newProgram()
       .load(PrimesProgram.class)
       .add(new Range(2, 30))
-      .withReactor(new BasicReactor(10000, 5000))
+      .withReactor(new BasicReactor(10000))
       .run()
       .getCell()
       .getInstanceElements();

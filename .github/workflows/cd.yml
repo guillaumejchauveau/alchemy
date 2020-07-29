@@ -3,7 +3,7 @@ name: CD
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   github_release:
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: 13
+          java-version: 11
       - run: chmod +x gradlew
       - run: ./gradlew distZip && mv ./core/build/distributions/core-*.zip ./core/build/distributions/core.zip && mv ./lib/build/distributions/lib-*.zip ./lib/build/distributions/lib.zip
       - id: create_release
@@ -23,8 +23,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+          prerelease: ${{ contains(github.ref, '-') }}
       - uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
@@ -37,6 +36,25 @@ jobs:
           asset_path: ./lib/build/distributions/lib.zip
           asset_name: lib.zip
           asset_content_type: application/zip
+      - run: ./gradlew javadoc
+      - uses: montudor/action-zip@v0.1.0
+          with:
+            args: zip -qq -r ./core/build/docs/javadoc.zip ./core/build/docs/javadoc
+      - uses: montudor/action-zip@v0.1.0
+          with:
+            args: zip -qq -r ./lib/build/docs/javadoc.zip ./lib/build/docs/javadoc
+      - uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./core/build/docs/javadoc.zip
+          asset_name: core-docs.zip
+          asset_content_type: application/zip
+      - uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./lib/build/docs/javadoc.zip
+          asset_name: lib-docs.zip
+          asset_content_type: application/zip
   package:
     runs-on: ubuntu-latest
     env:
@@ -46,6 +64,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: 13
+          java-version: 11
       - run: chmod +x gradlew
       - run: ./gradlew publish

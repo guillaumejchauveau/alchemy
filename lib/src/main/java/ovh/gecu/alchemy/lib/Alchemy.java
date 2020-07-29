@@ -9,6 +9,7 @@ import ovh.gecu.alchemy.lib.util.LoggingHelper;
 public class Alchemy {
   /**
    * Configures globally utilities used by the implementation.
+   *
    * @param debug Configures the internal logging framework to show more details
    */
   public static void configure(boolean debug) {
@@ -20,7 +21,15 @@ public class Alchemy {
   }
 
   /**
+   * Configures globally utilities used by the implementation.
+   */
+  public static void configure() {
+    configure(false);
+  }
+
+  /**
    * Starts the creation of a new Alchemy program.
+   *
    * @return A new program factory
    * @see ProgramFactory
    */

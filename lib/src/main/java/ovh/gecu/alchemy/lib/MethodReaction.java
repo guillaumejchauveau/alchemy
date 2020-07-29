@@ -36,6 +36,9 @@ public class MethodReaction implements Reaction<Object, Object> {
       if (this.isStatic) {
         return (Object[]) this.method.invoke(null, reactant1, reactant2);
       }
+      if (reactant1 == null) {
+        throw new RuntimeException("'" + this.method.getDeclaringClass() + "' is quantity-stored but the method reaction '" + this.method.getName() + "' is not static");
+      }
       return (Object[]) this.method.invoke(reactant1, reactant2);
     } catch (ReflectiveOperationException e) {
       throw new RuntimeException(e);

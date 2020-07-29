@@ -25,6 +25,15 @@ public class BasicReactor extends AbstractReactor {
   }
 
   /**
+   * Initializes the reactor with execution settings.
+   *
+   * @param iterationTarget The maximum number of reactions
+   */
+  public BasicReactor(Integer iterationTarget) {
+    this(iterationTarget, -1);
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
@@ -33,7 +42,7 @@ public class BasicReactor extends AbstractReactor {
     int iteration = 0;
     for (; iteration < this.iterationTarget && !Thread.currentThread().isInterrupted();
          iteration++) {
-      if (stability >= this.stabilityTarget) {
+      if (this.stabilityTarget > 0 && stability >= this.stabilityTarget) {
         this.state = State.STABLE;
         this.getLogger().info("Solution reached target stability");
         return;
